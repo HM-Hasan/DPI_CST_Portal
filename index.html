@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Class Elevate | Modern Class Portal + Admin Panel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"></script>
+  <style>
+
+    @font-face {
+      font-family: 'SolaimanLipi';
+      src: url('./fonts/SolaimanLipi.ttf') format('truetype');
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: url('bg.jpg') center/cover fixed;
+      color: #000000;
+      min-height: 100vh;
+      overflow-x: hidden;
+      font-family: 'Inter', 'Segoe UI', sans-serif;
+      scroll-behavior: smooth;
+      line-height: 1.5;
+    }
+
+    .bg-gradient-animate {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background: linear-gradient(
+        125deg,
+        rgba(255,255,255,0.35) 0%,
+        rgba(255,255,255,0.15) 40%,
+        rgba(255,255,255,0.35) 100%
+      );
+      background-size: 200% 200%;
+      animation: softFlow 18s ease infinite;
+    }
+
+    @keyframes softFlow {
+      0% { background-position: 0% 30%; }
+      50% { background-position: 100% 70%; }
+      100% { background-position: 0% 30%; }
+    }
+
+    .glass-nav {
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(2px);
+      background: rgba(255, 255, 255, 0);
+      border-bottom: 1px solid rgba(63, 22, 7, 0.359);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.02);
+      z-index: 100;
+      padding: 0.9rem 2rem;
+      transition: all 0.3s;
+    }
+
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .logo h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #9b4b2e, #6b2e1a);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.3px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 500;
+      color: #4a2a1a;
+      font-size: 0.92rem;
+      transition: 0.2s;
+      padding: 0.4rem 0.8rem;
+      border-radius: 40px;
+      backdrop-filter: blur(2px);
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      background: rgba(155, 75, 46, 0.12);
+      color: #9b4b2e;
+      box-shadow: 0 0 6px rgba(155, 75, 46, 0.2);
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    section {
+      margin-bottom: 5rem;
+      scroll-margin-top: 90px;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
+      letter-spacing: -0.5px;
+      background: linear-gradient(125deg, #7a3e24, #c26942);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-block;
+    }
+
+    .glass-card {
+      background: rgba(137, 137, 137, 0);
+      backdrop-filter: blur(2px);
+      border-radius: 28px;
+      border: 1px solid rgba(63, 22, 7, 0.359);
+      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.08), 0 0 0 0.5px rgba(255, 255, 255, 0.5) inset;
+      transition: all 0.3s ease;
+    }
+
+    .glass-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 28px 40px -16px rgba(107, 46, 26, 0.2);
+      border-color: rgba(112, 45, 20, 0.686);
+      background: rgba(255, 255, 254, 0);
+    }
+
+    .hero {
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #832e0f, #803f20);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin: 1rem 0;
+      color: #4f2e1c;
+    }
+
+    .btn-glow {
+      background: rgba(155, 75, 46, 0.85);
+      border: none;
+      padding: 0.8rem 2rem;
+      border-radius: 40px;
+      font-weight: 600;
+      color: white;
+      font-size: 1rem;
+      backdrop-filter: blur(4px);
+      cursor: pointer;
+      transition: all 0.25s;
+      box-shadow: 0 2px 8px rgba(155, 75, 46, 0.3);
+    }
+
+    .btn-glow:hover {
+      background: #9b4b2e;
+      box-shadow: 0 8px 20px rgba(155, 75, 46, 0.5);
+      transform: scale(1.02);
+    }
+
+    .student-grid, .material-grid, .notice-grid, .event-timeline, .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.8rem;
+    }
+
+    .student-card {
+      padding: 1.2rem;
+      text-align: center;
+    }
+
+    .student-photo {
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(145deg, #d9b8a8, #c2977e);
+      border-radius: 50%;
+      margin: 0 auto 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      color: white;
+      box-shadow: 0 8px 14px rgba(0,0,0,0.1);
+    }
+
+    .search-filter {
+      margin-bottom: 2rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .search-filter input {
+      flex: 1;
+      padding: 0.8rem 1.2rem;
+      border-radius: 60px;
+      border: 1px solid rgba(155,75,46,0.3);
+      background: rgba(255,250,245,0.7);
+      backdrop-filter: blur(4px);
+      font-family: inherit;
+    }
+
+    .routine-wrapper {
+      overflow-x: auto;
+    }
+    .glass-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(255,245,238,0.5);
+      backdrop-filter: blur(50px);
+      border-radius: 28px;
+      overflow: hidden;
+    }
+    .glass-table th, .glass-table td {
+      padding: 0.9rem 0.5rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(155,75,46,0.15);
+    }
+    .glass-table th {
+      background: rgba(155,75,46,0.2);
+      font-weight: 600;
+      color: #6b2e1a;
+    }
+
+    .glass-table small{
+      display:block;
+      font-size:0.72rem;
+      opacity:0.75;
+      color: #6a240c;
+      font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    }
+
+    .today-highlight {
+      background: rgba(188,111,76,0.25);
+      font-weight: 600;
+    }
+
+    .notice-item, .material-item, .assignment-card, .event-card {
+      padding: 1.4rem;
+    }
+
+    .badge-new {
+      background: #c26942;
+      font-size: 0.7rem;
+      padding: 0.2rem 0.7rem;
+      border-radius: 50px;
+      color: white;
+      margin-left: 0.8rem;
+    }
+
+    .download-btn {
+      background: rgba(155,75,46,0.1);
+      border: 1px solid rgba(155,75,46,0.4);
+      border-radius: 40px;
+      padding: 0.4rem 1rem;
+      font-weight: 500;
+      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    .assignment-status {
+      display: inline-block;
+      background: #e9c7b8;
+      border-radius: 20px;
+      padding: 0.2rem 0.7rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .timeline-event {
+      display: flex;
+      gap: 1rem;
+      align-items: baseline;
+      flex-wrap: wrap;
+      padding: 1rem;
+    }
+
+    .gallery-img {
+      aspect-ratio: 1 / 0.9;
+      background: #e6cfc0;
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: #7a3e24;
+      transition: 0.2s;
+      cursor: pointer;
+    }
+    .lightbox {
+      display: none;
+      position: fixed;
+      top:0; left:0; width:100%; height:100%;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(12px);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .contact-flex {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+    .contact-info, .contact-form {
+      flex: 1;
+      padding: 1.8rem;
+    }
+    .social-icons a {
+      font-size: 1.8rem;
+      margin-right: 1rem;
+      color: #9b4b2e;
+      transition: 0.2s;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 0.8rem;
+      margin: 0.6rem 0;
+      border-radius: 24px;
+      border: 1px solid rgba(155,75,46,0.3);
+      background: rgba(255,245,240,0.7);
+      backdrop-filter: blur(2px);
+      font-family: inherit;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      backdrop-filter: blur(8px);
+      color: #5e3a28;
+    }
+
+    @media (max-width: 780px) {
+      .nav-container { flex-direction: column; align-items: center; }
+      .hero h1 { font-size: 1.6rem; }
+      .section-title { font-size: 1.6rem; }
+    }
+    button, .download-btn { cursor: pointer; background: transparent; }
+
+    .admin-float-btn {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      background: #9b4b2e;
+      width: 56px;
+      height: 56px;
+      border-radius: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+      cursor: pointer;
+      z-index: 1000;
+      transition: all 0.2s;
+      border: none;
+      color: white;
+      font-size: 1.8rem;
+    }
+    .admin-float-btn:hover {
+      transform: scale(1.05);
+      background: #7a3e24;
+    }
+
+    .toast-notification {
+      position: fixed;
+      bottom: 100px;
+      right: 30px;
+      background: #4caf50;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 40px;
+      z-index: 2500;
+      animation: slideIn 0.3s ease;
+    }
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    .material-file-link a {
+      color: #9b4b2e;
+      text-decoration: none;
+      font-weight: 500;
+      word-break: break-all;
+    }
+
+    .bangla{
+      font-family: 'SolaimanLipi', sans-serif;
+    }
+
+  </style>
+</head>
+<body>
+<div class="bg-gradient-animate"></div>
+
+<nav class="glass-nav">
+  <div class="nav-container">
+    <div class="logo"><h2><i class="fas fa-graduation-cap"></i> Class Website</h2></div>
+    <div class="nav-links">
+      <a href="#home" class="nav-link active">Home</a>
+      <a href="#students" class="nav-link">Students</a>
+      <a href="#routine" class="nav-link">Routine</a>
+      <a href="#notice" class="nav-link">Notices</a>
+      <a href="#materials" class="nav-link">Materials</a>
+      <a href="#assignments" class="nav-link">Assignments</a>
+      <a href="#events" class="nav-link">Events</a>
+      <a href="#gallery" class="nav-link">Gallery</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<main class="container">
+  <section id="home"><div class="glass-card hero"><i class="fas fa-chalkboard-user" style="font-size: 3rem; color:#9b4b2e;"></i><h1>Dhaka Polytechnice <br> CST 2024-25</h1><p class="bangla" style="max-width:600px; margin:0 auto 1.5rem;">আমাদের ওয়েবসাইটে আপনাকে স্বাগতম✨ আপনার ক্লাস এবং পড়ালেখার যাত্রাকে সহজ করতে আমরা নিয়ে এসেছি ডিজিটাল প্লাটফর্ম🎉 যুক্ত থাকুন এবং উপভোগ করুন...!</p><div style="display: flex; gap: 1rem; justify-content: center; flex-wrap:wrap;"><button class="btn-glow" onclick="document.getElementById('students').scrollIntoView({behavior:'smooth'})">Meet Classmates</button><button class="btn-glow" onclick="document.getElementById('materials').scrollIntoView({behavior:'smooth'})">Study Resources</button></div></div></section>
+  <section id="students"><h2 class="section-title"><i class="fas fa-users"></i> Student List</h2><div class="search-filter"><input type="text" id="studentSearch" placeholder="🔍 Search by name or roll..." onkeyup="window.filterStudentsMain()"></div><div id="studentGridContainer" class="student-grid"></div><div style="text-align:center;margin-top:1rem">
+  <button class="btn-glow" onclick="toggleStudents()" id="seeMoreBtn">See More</button></div></section>
+  <section id="routine"><h2 class="section-title"><i class="fas fa-calendar-alt"></i> Class Routine</h2><div class="routine-wrapper glass-card" style="padding: 1rem;"><table class="glass-table" id="routineTable"><thead><tr><th>Day</th><th>1:15-2:00</th><th>2:00-2:45</th><th>2:45-3:30</th><th>3:30-4:15</th><th>4:15-5:00</th><th>5:00-5:45</th><th>5:45-6:30</th></tr></thead><tbody id="routineBody"></tbody></table></div></section>
+  <section id="notice"><h2 class="section-title"><i class="fas fa-bullhorn"></i> Notice Board</h2><div id="noticeContainer" class="notice-grid"></div></section>
+  <section id="materials"><h2 class="section-title"><i class="fas fa-book-open"></i> Study Materials</h2><div id="materialsContainer" class="material-grid"></div></section>
+  <section id="assignments"><h2 class="section-title"><i class="fas fa-tasks"></i> Assignments</h2><div id="assignmentContainer" class="student-grid"></div></section>
+  <section id="events"><h2 class="section-title"><i class="fas fa-calendar-week"></i> Upcoming Events</h2><div class="glass-card timeline" id="eventList"></div></section>
+  <section id="gallery"><h2 class="section-title"><i class="fas fa-images"></i> Gallery</h2><div class="gallery-grid" id="galleryGrid"></div><div id="lightbox" class="lightbox" onclick="closeLightbox()"><img id="lightboxImg" style="max-width:90%; max-height:90%; border-radius: 28px;"></div></section>
+  <section id="contact"><h2 class="section-title"><i class="fas fa-address-card"></i> Contact Class Rep</h2><div class="glass-card contact-flex"><div class="contact-info"><i class="fas fa-user-tie" style="font-size:2rem;"></i><h3>HM Hasan (CR)</h3><p><i class="fas fa-phone-alt"></i> +8801330668854</p><p><i class="fas fa-envelope"></i> hmhasan24680@gmail.com</p><div class="social-icons"><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-whatsapp"></i></a><a href="#"><i class="fab fa-discord"></i></a></div></div><div class="contact-form"><input type="text" placeholder="Your name" id="contactName"><input type="email" placeholder="Email"><textarea rows="3" placeholder="Message..."></textarea><button class="btn-glow" style="width:100%">Send Message <i class="fas fa-paper-plane"></i></button></div></div></section>
+</main>
+<footer>Thanks for visiting our website, Stay contineu and explore our features and service</footer>
+
+<button id="adminOpenBtn" class="admin-float-btn"><i class="fas fa-user-shield"></i></button>
+<div id="adminRoot"></div>
+
+<script type="text/babel">
+
+  document.querySelectorAll('.nav-link').forEach(link => {
+
+  link.addEventListener('click', function(e) {
+
+    e.preventDefault();
+
+    const targetId = this.getAttribute('href');
+
+    const targetSection = document.querySelector(targetId);
+
+    targetSection.scrollIntoView({
+      behavior: "smooth"
+    });
+
+
+    // active link highlight
+    document.querySelectorAll('.nav-link')
+      .forEach(l => l.classList.remove('active'));
+
+    this.classList.add('active');});
+  });
+
+
+  // STORAGE KEYS
+  const STORAGE_KEYS = {
+    AUTH_TOKEN: 'admin_auth_token',
+    STUDENTS: 'class_elevate_students',
+    NOTICES: 'class_elevate_notices',
+    ROUTINE: 'class_elevate_routine',
+    ASSIGNMENTS: 'class_elevate_assignments',
+    MATERIALS: 'class_elevate_materials',
+    ASSIGNMENT_SUBMISSIONS: 'assignment_submissions_data'
+  };
+
+  // DEFAULT DATA with SUNDAY added, FRIDAY removed, 7 periods
+  const defaultStudents = [
+    { id: 's1', name: "Aarav Sharma", roll: "01", photo: "👨‍🎓", contact: "+880171234567" },
+    { id: 's2', name: "Anika Rahman", roll: "02", photo: "👩‍🎓", contact: "+880172345678" },
+    { id: 's3', name: "Rohan Das", roll: "03", photo: "🧑‍💻", contact: "+880173456789" },
+    { id: 's4', name: "Ishita Roy", roll: "04", photo: "👩‍🔬", contact: "+880174567890" },
+    { id: 's5', name: "Tanvir Hossain", roll: "05", photo: "🧑‍🏫", contact: "+880175678901" },
+    { id: 's6', name: "Nusrat Jahan", roll: "06", photo: "👩‍🎨", contact: "+880176789012" }
+  ];
+  const defaultNotices = [
+    { id: 'n1', title: "📢 Midterm Exam Schedule", date: "2025-04-10", desc: "Exam starts from 20th April. Download timetable.", important: true },
+    { id: 'n2', title: "🎓 Science Fair 2025", date: "2025-04-15", desc: "All students must register by 12th April.", important: false },
+    { id: 'n3', title: "📚 Holiday Notice", date: "2025-04-05", desc: "School closed on 14th April for Pohela Boishakh.", important: false }
+  ];
+
+  // New Routine: Sunday to Thursday (7 periods each)
+  const defaultRoutine = {
+  Sunday: ["Mathematics|Room 301", "Physics|Room 301", "Chemistry|Room 301", "English|Room 301", "Computer Sci|Room 301", "Sports|Room 301", "Library|Room 301"],
+  Monday: ["Physics|Room 301", "Mathematics|Room 301", "Biology|Room 301", "History|Room 301", "Chemistry|Room 301", "English|Room 301", "ICT|Room 301"],
+  Tuesday: ["Chemistry|Room 301", "English|Room 301", "Mathematics|Room 301", "Physics Lab|Room 301", "Computer Sci|Room 301", "Arts|Room 301", "Library|Room 301"],
+  Wednesday: ["Biology|Room 301", "History|Room 301", "Physics|Room 301", "Mathematics|Room 301", "English|Room 301", "Geography|Room 301", "ICT|Room 301"],
+  Thursday: ["Computer Sci|Room 301", "Mathematics|Room 301", "Chemistry|Room 301", "Physics|Room 301", "Economics|Room 301", "Library|Room 301", "Sports|Room 301"]
+ };
+  const defaultAssignments = [
+    { id: 'a1', title: "Physics Lab Report", deadline: "2025-04-18", description: "Submit experiment on refraction", totalSubmissions: 3, submissions: [{ studentId: "s1", studentName: "Aarav Sharma", fileUrl: "report_aarav.pdf", submittedAt: "2025-04-10" }, { studentId: "s2", studentName: "Anika Rahman", fileUrl: "lab_anika.pdf", submittedAt: "2025-04-11" }, { studentId: "s3", studentName: "Rohan Das", fileUrl: "physics_rohan.pdf", submittedAt: "2025-04-09" }] },
+    { id: 'a2', title: "Math Assignment", deadline: "2025-04-12", description: "Solve integration problems", totalSubmissions: 1, submissions: [{ studentId: "s2", studentName: "Anika Rahman", fileUrl: "math_anika.pdf", submittedAt: "2025-04-08" }] },
+    { id: 'a3', title: "CS Project", deadline: "2025-04-25", description: "Portfolio website", totalSubmissions: 0, submissions: [] }
+  ];
+  const defaultMaterials = [
+    { id: 'm1', title: "Physics Chapter 1 Notes", type: "pdf", url: "/sample.pdf", fileName: "physics_ch1.pdf" },
+    { id: 'm2', title: "Chemistry Periodic Table", type: "image", url: "/periodic.png", fileName: "periodic_table.png" }
+  ];
+
+  function initData() {
+    if(!localStorage.getItem(STORAGE_KEYS.STUDENTS)) localStorage.setItem(STORAGE_KEYS.STUDENTS, JSON.stringify(defaultStudents));
+    if(!localStorage.getItem(STORAGE_KEYS.NOTICES)) localStorage.setItem(STORAGE_KEYS.NOTICES, JSON.stringify(defaultNotices));
+    if(!localStorage.getItem(STORAGE_KEYS.ROUTINE)) localStorage.setItem(STORAGE_KEYS.ROUTINE, JSON.stringify(defaultRoutine));
+    if(!localStorage.getItem(STORAGE_KEYS.ASSIGNMENTS)) localStorage.setItem(STORAGE_KEYS.ASSIGNMENTS, JSON.stringify(defaultAssignments));
+    if(!localStorage.getItem(STORAGE_KEYS.MATERIALS)) localStorage.setItem(STORAGE_KEYS.MATERIALS, JSON.stringify(defaultMaterials));
+    if(!localStorage.getItem(STORAGE_KEYS.ASSIGNMENT_SUBMISSIONS)) localStorage.setItem(STORAGE_KEYS.ASSIGNMENT_SUBMISSIONS, JSON.stringify({}));
+  }
+  initData();
+
+  function getStudents() { return JSON.parse(localStorage.getItem(STORAGE_KEYS.STUDENTS)); }
+  function saveStudents(data) { localStorage.setItem(STORAGE_KEYS.STUDENTS, JSON.stringify(data)); refreshMainStudentGrid(); }
+  function getNotices() { return JSON.parse(localStorage.getItem(STORAGE_KEYS.NOTICES)); }
+  function saveNotices(data) { localStorage.setItem(STORAGE_KEYS.NOTICES, JSON.stringify(data)); refreshMainNotices(); }
+  function getRoutine() { return JSON.parse(localStorage.getItem(STORAGE_KEYS.ROUTINE)); }
+  function saveRoutine(data) { localStorage.setItem(STORAGE_KEYS.ROUTINE, JSON.stringify(data)); refreshMainRoutine(); }
+  function getAssignments() { return JSON.parse(localStorage.getItem(STORAGE_KEYS.ASSIGNMENTS)); }
+  function saveAssignments(data) { localStorage.setItem(STORAGE_KEYS.ASSIGNMENTS, JSON.stringify(data)); refreshMainAssignments(); }
+  function getMaterials() { return JSON.parse(localStorage.getItem(STORAGE_KEYS.MATERIALS)); }
+  function saveMaterials(data) { localStorage.setItem(STORAGE_KEYS.MATERIALS, JSON.stringify(data)); refreshMainMaterials(); }
+
+  window.refreshMainStudentGrid = function() { renderStudentsMain(); };
+  window.refreshMainNotices = function() { renderNoticesMain(); };
+  window.refreshMainRoutine = function() { renderRoutineMain(); highlightTodayMain(); };
+  window.refreshMainAssignments = function() { renderAssignmentsMain(); };
+  window.refreshMainMaterials = function() { renderMaterialsMain(); };
+
+  let showAllStudents = false;
+
+function renderStudentsMain(filter = "") {
+
+  let students = getStudents();
+
+  // roll serial maintain
+  students.sort((a,b)=> Number(a.roll) - Number(b.roll));
+
+  const filtered = students.filter(s =>
+    s.name.toLowerCase().includes(filter.toLowerCase()) ||
+    s.roll.includes(filter)
+  );
+
+  const displayList = showAllStudents ? filtered : filtered.slice(0,6);
+
+  const container = document.getElementById("studentGridContainer");
+
+  if(container)
+    container.innerHTML = displayList.map(s => `
+      <div class="glass-card student-card">
+        <div class="student-photo">${s.photo}</div>
+        <h3>${s.name}</h3>
+        <p>Roll: ${s.roll}</p>
+        <p><i class="fas fa-phone-alt"></i> ${s.contact}</p>
+      </div>
+    `).join("");
+
+  document.getElementById("seeMoreBtn").innerText =
+    showAllStudents ? "Show Less" : "See More";
+  }
+
+  function toggleStudents(){
+  showAllStudents = !showAllStudents;
+  renderStudentsMain(document.getElementById("studentSearch").value); 
+  }
+  window.filterStudentsMain = () => { const val = document.getElementById("studentSearch")?.value || ""; renderStudentsMain(val); };
+  
+  function renderNoticesMain() {
+    const notices = getNotices();
+    const container = document.getElementById("noticeContainer");
+    if(container) container.innerHTML = notices.map(n => `<div class="glass-card notice-item"><div><strong>${n.title}</strong> ${n.important ? '<span class="badge-new">Important</span>' : ''}</div><small><i class="far fa-calendar-alt"></i> ${n.date}</small><p style="margin-top:8px">${n.desc}</p></div>`).join("");
+  }
+  
+  function renderRoutineMain() {
+    const routine = getRoutine();
+    const daysOrder = ["Sunday","Monday","Tuesday","Wednesday","Thursday"];
+    const tbody = document.getElementById("routineBody");
+    if(tbody) tbody.innerHTML = daysOrder.map(day => {
+      const periods = routine[day] || Array(7).fill("-");
+      return `<tr id="row-${day}">
+<td>${day}</td>
+${periods.map(p => {
+  const [subject, room] = p.split("|");
+  return `
+    <td>
+      <div>${subject || "-"}</div>
+      <small style="opacity:0.7;font-size:0.75rem;">
+        ${room || ""}
+      </small>
+    </td>
+  `;
+}).join('')}
+</tr>`;
+    }).join("");
+  }
+  
+  function highlightTodayMain() {
+    const daysMap = {0:"Sunday",1:"Monday",2:"Tuesday",3:"Wednesday",4:"Thursday",5:"Friday",6:"Saturday"};
+    const todayName = daysMap[new Date().getDay()];
+    const rows = document.querySelectorAll("#routineBody tr");
+    rows.forEach(row => { const dayCell = row.cells[0]; if(dayCell && dayCell.innerText === todayName) row.classList.add("today-highlight"); else row.classList.remove("today-highlight"); });
+  }
+  
+  function renderMaterialsMain() {
+    const materials = getMaterials();
+    const container = document.getElementById("materialsContainer");
+    if(container) container.innerHTML = materials.map(m => `<div class="glass-card material-item"><h3>${m.title}</h3><div class="material-file-link"><i class="fas fa-file-alt"></i> <a href="#" onclick="window.downloadMaterial('${m.id}'); return false;">${m.fileName}</a></div><small>${m.type === 'pdf' ? 'PDF Document' : 'Image'}</small></div>`).join("");
+  }
+  window.downloadMaterial = (id) => { const mats = getMaterials(); const mat = mats.find(m=>m.id===id); if(mat) alert(`Demo download: ${mat.fileName} (Admin can upload actual files via panel)`); else alert("File not found"); };
+  
+  function renderAssignmentsMain() {
+    const assignments = getAssignments();
+    const students = getStudents();
+    const container = document.getElementById("assignmentContainer");
+    if(container) container.innerHTML = assignments.map(a => {
+      const submissionCount = a.submissions ? a.submissions.length : 0;
+      return `<div class="glass-card assignment-card"><h3>${a.title}</h3><p><i class="far fa-clock"></i> Deadline: ${a.deadline}</p><p>${a.description}</p><div><span class="assignment-status">📊 Submissions: ${submissionCount} / ${students.length}</span></div><button class="btn-glow" style="margin-top:12px; padding:0.4rem 1rem;" onclick="alert('Demo: Upload page for ${a.title} (students would submit here)')">Upload Work <i class="fas fa-upload"></i></button></div>`;
+    }).join("");
+  }
+  
+  const eventsStatic = [
+    { name: "Annual Sports Day", date: "May 5, 2025", desc: "Field events & cultural show" },
+    { name: "Parent-Teacher Meet", date: "April 28, 2025", desc: "Conference room 2" },
+    { name: "Tech Workshop", date: "April 20, 2025", desc: "AI & Robotics hands-on" }
+  ];
+  function renderEventsMain() { 
+    const container = document.getElementById("eventList"); 
+    if(container) container.innerHTML = eventsStatic.map(e => `<div class="timeline-event glass-card" style="margin:0; border-radius: 24px;"><div><i class="fas fa-star-of-life" style="color:#9b4b2e;"></i></div><div><strong>${e.name}</strong><br><small>${e.date}</small><p>${e.desc}</p></div></div>`).join(""); 
+  }
+  
+  const galleryImages = [
+    { thumb: "🏆", label: "Sports victory" }, { thumb: "🎭", label: "Annual fest" }, 
+    { thumb: "📖", label: "Study group" }, { thumb: "🔬", label: "Science lab" }, 
+    { thumb: "🎨", label: "Art competition" }, { thumb: "🎓", label: "Graduation prep" }
+  ];
+  function renderGalleryMain() { 
+    const container = document.getElementById("galleryGrid"); 
+    if(container) container.innerHTML = galleryImages.map((img, idx) => `<div class="glass-card gallery-img" onclick="openLightbox('${img.thumb}', '${img.label}')"><div style="text-align:center">${img.thumb}<br><span style="font-size:0.8rem;">${img.label}</span></div></div>`).join(""); 
+  }
+  window.openLightbox = (src, label) => { const lb = document.getElementById("lightbox"); const imgEl = document.getElementById("lightboxImg"); if(imgEl) imgEl.src = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='50' fill='%23fff'%3E${encodeURIComponent(src)}%3C/text%3E%3C/svg%3E`; if(lb) lb.style.display = "flex"; };
+  window.closeLightbox = () => { document.getElementById("lightbox").style.display = "none"; };
+  
+  function initMainRender() { renderStudentsMain(); renderNoticesMain(); renderRoutineMain(); renderAssignmentsMain(); renderEventsMain(); renderGalleryMain(); renderMaterialsMain(); highlightTodayMain(); }
+  initMainRender();
+
+  const ADMIN_CRED = { email: "admin@elevate.com", password: "admin123" };
+  function isAuthenticated() { return localStorage.getItem(STORAGE_KEYS.AUTH_TOKEN) === "jwt_demo_token"; }
+  function loginAdmin(email, pwd) { if(email === ADMIN_CRED.email && pwd === ADMIN_CRED.password) { localStorage.setItem(STORAGE_KEYS.AUTH_TOKEN, "jwt_demo_token"); return true; } return false; }
+  function logoutAdmin() { localStorage.removeItem(STORAGE_KEYS.AUTH_TOKEN); }
+  function showToast(message, isError = false) { const toast = document.createElement('div'); toast.className = 'toast-notification'; toast.style.background = isError ? '#f44336' : '#4caf50'; toast.textContent = message; document.body.appendChild(toast); setTimeout(() => toast.remove(), 3000); }
+
+  const { useState, useEffect } = React;
+  
+  const AdminPanel = ({ onClose }) => {
+    const [auth, setAuth] = useState(isAuthenticated());
+    const [loginEmail, setLoginEmail] = useState("");
+    const [loginPass, setLoginPass] = useState("");
+    const [loginError, setLoginError] = useState("");
+    const [activeTab, setActiveTab] = useState("students");
+    const [studentsList, setStudentsList] = useState(getStudents());
+    const [noticesList, setNoticesList] = useState(getNotices());
+    const [routineData, setRoutineData] = useState(getRoutine());
+    const [assignmentsList, setAssignmentsList] = useState(getAssignments());
+    const [materialsList, setMaterialsList] = useState(getMaterials());
+    const [studentForm, setStudentForm] = useState({ id:"", name:"", roll:"", photo:"👩‍🎓", contact:"" });
+    const [noticeForm, setNoticeForm] = useState({ id:"", title:"", date:"", desc:"", important:false });
+    const [materialForm, setMaterialForm] = useState({ id:"", title:"", type:"pdf", fileData:"", fileName:"" });
+    const [selectedAssignment, setSelectedAssignment] = useState(null);
+
+    useEffect(() => { if(auth) { loadData(); } }, [auth]);
+    function loadData() { setStudentsList(getStudents()); setNoticesList(getNotices()); setRoutineData(getRoutine()); setAssignmentsList(getAssignments()); setMaterialsList(getMaterials()); }
+    
+    function handleLogin(e) { e.preventDefault(); if(loginAdmin(loginEmail, loginPass)) { setAuth(true); setLoginError(""); showToast("Login successful! Welcome Admin."); } else { setLoginError("Invalid email or password. Use: admin@elevate.com / admin123"); showToast("Login failed! Check credentials.", true); } }
+    function handleLogout() { logoutAdmin(); setAuth(false); showToast("Logged out successfully."); }
+    
+    function addUpdateStudent() { let list = [...studentsList]; if(studentForm.id) { const idx = list.findIndex(s=>s.id===studentForm.id); if(idx!==-1) list[idx]=studentForm; showToast("Student updated!"); } else { const newId = Date.now().toString(); list.push({...studentForm, id:newId}); showToast("Student added!"); } saveStudents(list); setStudentsList(list); setStudentForm({ id:"", name:"", roll:"", photo:"👩‍🎓", contact:"" }); }
+    function deleteStudent(id) { const list = studentsList.filter(s=>s.id!==id); saveStudents(list); setStudentsList(list); showToast("Student deleted!"); }
+    function addUpdateNotice() { let list = [...noticesList]; if(noticeForm.id) { const idx = list.findIndex(n=>n.id===noticeForm.id); if(idx!==-1) list[idx]=noticeForm; showToast("Notice updated!"); } else { list.push({...noticeForm, id:Date.now().toString()}); showToast("Notice added!"); } saveNotices(list); setNoticesList(list); setNoticeForm({ id:"", title:"", date:"", desc:"", important:false }); }
+    function deleteNotice(id) { const list = noticesList.filter(n=>n.id!==id); saveNotices(list); setNoticesList(list); showToast("Notice deleted!"); }
+    function updateRoutine(day, slotIdx, newVal) { const newRoutine = {...routineData}; newRoutine[day][slotIdx] = newVal; saveRoutine(newRoutine); setRoutineData(newRoutine); showToast("Routine updated!"); }
+    
+    function addMaterial() { if(!materialForm.title || !materialForm.fileName) { showToast("Title & filename required", true); return; } let list = [...materialsList]; if(materialForm.id) { const idx = list.findIndex(m=>m.id===materialForm.id); if(idx!==-1) list[idx] = {...materialForm}; showToast("Material updated!"); } else { list.push({...materialForm, id:Date.now().toString()}); showToast("Material added!"); } saveMaterials(list); setMaterialsList(list); setMaterialForm({ id:"", title:"", type:"pdf", fileData:"", fileName:"" }); }
+    function deleteMaterial(id) { const list = materialsList.filter(m=>m.id!==id); saveMaterials(list); setMaterialsList(list); showToast("Material deleted!"); }
+    
+    function viewAssignmentSubmissions(assign) { setSelectedAssignment(assign); }
+    function updateSubmissionStatus(assignId, newSubmissionsArr) { const updated = assignmentsList.map(a=> a.id===assignId ? {...a, submissions: newSubmissionsArr, totalSubmissions: newSubmissionsArr.length} : a); saveAssignments(updated); setAssignmentsList(updated); setSelectedAssignment(updated.find(a=>a.id===assignId)); showToast("Submissions updated"); }
+
+    if(!auth) {
+      return ( <div style={{position:'fixed',top:0,left:0,width:'100%',height:'100%',background:'rgba(0,0,0,0.7)',backdropFilter:'blur(12px)',display:'flex',alignItems:'center',justifyContent:'center',zIndex:2100,pointerEvents:'auto'}} onClick={onClose}> <div style={{background:'#fff5ef',borderRadius:'32px',maxWidth:'420px',width:'90%',padding:'2rem',boxShadow:'0 25px 40px rgba(0,0,0,0.3)'}} onClick={e=>e.stopPropagation()}> <h2 style={{color:'#9b4b2e',marginBottom:'1rem'}}><i className="fas fa-lock"></i> Admin Login</h2> <form onSubmit={handleLogin}> <input type="email" placeholder="admin@elevate.com" value={loginEmail} onChange={e=>setLoginEmail(e.target.value)} required style={{margin:'0.5rem 0',padding:'0.8rem',borderRadius:'24px',border:'1px solid #9b4b2e',width:'100%'}}/> <input type="password" placeholder="admin123" value={loginPass} onChange={e=>setLoginPass(e.target.value)} required style={{margin:'0.5rem 0',padding:'0.8rem',borderRadius:'24px',border:'1px solid #9b4b2e',width:'100%'}}/> <button type="submit" className="btn-glow" style={{width:'100%',marginTop:'1rem'}}>Login <i className="fas fa-sign-in-alt"></i></button> {loginError && <p style={{color:'red',marginTop:'0.5rem',fontSize:'0.85rem'}}>{loginError}</p>} </form> <p style={{marginTop:'1rem',fontSize:'0.8rem',color:'#666'}}>Demo: admin@elevate.com / admin123</p> </div> </div> );
+    }
+    
+    return (
+      <div style={{position:'fixed',top:0,right:0,width:'550px',maxWidth:'95vw',height:'100%',background:'rgba(255,245,240,0.98)',backdropFilter:'blur(16px)',boxShadow:'-8px 0 32px rgba(0,0,0,0.3)',zIndex:2100,display:'flex',flexDirection:'column',overflowY:'auto',pointerEvents:'auto',borderLeft:'1px solid rgba(155,75,46,0.4)'}}>
+        <div style={{padding:'1rem 1.5rem',borderBottom:'1px solid #d9b8a8',display:'flex',justifyContent:'space-between',alignItems:'center',background:'rgba(155,75,46,0.1)'}}>
+          <h2 style={{color:'#9b4b2e'}}><i className="fas fa-user-shield"></i> Admin Console</h2>
+          <button onClick={onClose} style={{background:'none',border:'none',fontSize:'1.8rem',cursor:'pointer',color:'#9b4b2e'}}>✕</button>
+        </div>
+        <div style={{display:'flex',gap:'0.5rem',padding:'0.8rem 1rem',flexWrap:'wrap',borderBottom:'1px solid #e0cbc0'}}>
+          {['students','notices','routine','assignments','materials'].map(tab=>( <button key={tab} onClick={()=>setActiveTab(tab)} style={{background:activeTab===tab?'#9b4b2e':'transparent',color:activeTab===tab?'white':'#6b2e1a',border:'1px solid #9b4b2e',borderRadius:'40px',padding:'0.4rem 1rem',fontWeight:600,cursor:'pointer'}}> {tab.charAt(0).toUpperCase()+tab.slice(1)} </button> ))}
+          <button onClick={handleLogout} style={{marginLeft:'auto',background:'#c26942',color:'white',border:'none',borderRadius:'40px',padding:'0.4rem 1rem',cursor:'pointer'}}>Logout</button>
+        </div>
+        <div style={{padding:'1.5rem',flex:1}}>
+          {activeTab === 'students' && (<><h3>📚 Manage Students</h3><div style={{background:'white',borderRadius:'24px',padding:'1rem',marginBottom:'1rem'}}><input placeholder="Name" value={studentForm.name} onChange={e=>setStudentForm({...studentForm,name:e.target.value})}/><input placeholder="Roll" value={studentForm.roll} onChange={e=>setStudentForm({...studentForm,roll:e.target.value})}/><input placeholder="Contact" value={studentForm.contact} onChange={e=>setStudentForm({...studentForm,contact:e.target.value})}/><input placeholder="Photo emoji" value={studentForm.photo} onChange={e=>setStudentForm({...studentForm,photo:e.target.value})}/><button className="btn-glow" onClick={addUpdateStudent}>{studentForm.id?'Update':'Add'} Student</button><button onClick={()=>setStudentForm({ id:"", name:"", roll:"", photo:"👩‍🎓", contact:"" })}>Cancel</button></div><div>{studentsList.map(s=><div key={s.id}><span><strong>{s.name}</strong> (Roll {s.roll})</span><button onClick={()=>setStudentForm(s)}>Edit</button><button onClick={()=>deleteStudent(s.id)}>Del</button></div>)}</div></>)}
+          {activeTab === 'notices' && (<><h3>📢 Manage Notices</h3><div><input placeholder="Title" value={noticeForm.title} onChange={e=>setNoticeForm({...noticeForm,title:e.target.value})}/><input type="date" value={noticeForm.date} onChange={e=>setNoticeForm({...noticeForm,date:e.target.value})}/><textarea placeholder="Desc" value={noticeForm.desc} onChange={e=>setNoticeForm({...noticeForm,desc:e.target.value})}/><label><input type="checkbox" checked={noticeForm.important} onChange={e=>setNoticeForm({...noticeForm,important:e.target.checked})}/> Important</label><button onClick={addUpdateNotice}>{noticeForm.id?'Update':'Add'} Notice</button><button onClick={()=>setNoticeForm({ id:"", title:"", date:"", desc:"", important:false })}>Cancel</button></div><div>{noticesList.map(n=><div><strong>{n.title}</strong> <button onClick={()=>setNoticeForm(n)}>Edit</button><button onClick={()=>deleteNotice(n.id)}>Del</button></div>)}</div></>)}
+          {activeTab === 'routine' && (<><h3>📅 Edit Weekly Routine (Sun-Thu, 7 periods)</h3>{Object.keys(routineData).map(day=>(<div key={day}><h4>{day}</h4>{routineData[day].map((sub,idx)=>(<div><span>Period {idx+1}</span><input value={sub} onChange={e=>updateRoutine(day,idx,e.target.value)}/></div>))}</div>))}</>)}
+          {activeTab === 'materials' && (<><h3>📁 Study Materials (PDF/PNG)</h3><div><input placeholder="Title" value={materialForm.title} onChange={e=>setMaterialForm({...materialForm,title:e.target.value})}/><select value={materialForm.type} onChange={e=>setMaterialForm({...materialForm,type:e.target.value})}><option value="pdf">PDF</option><option value="image">PNG/Image</option></select><input placeholder="Filename e.g., notes.pdf" value={materialForm.fileName} onChange={e=>setMaterialForm({...materialForm,fileName:e.target.value})}/><button onClick={addMaterial}>{materialForm.id?'Update':'Add'} Material</button></div><div>{materialsList.map(m=><div><span>{m.title} ({m.fileName})</span><button onClick={()=>setMaterialForm(m)}>Edit</button><button onClick={()=>deleteMaterial(m.id)}>Del</button></div>)}</div></>)}
+          {activeTab === 'assignments' && (<><h3>📝 Assignments & Submission Tracker</h3>{assignmentsList.map(a=>(<div key={a.id} style={{marginBottom:'1rem',border:'1px solid #ddd',borderRadius:'24px',padding:'1rem'}}><h4>{a.title}</h4><p>Deadline: {a.deadline}</p><p>Submissions: {a.submissions?.length || 0} / {studentsList.length}</p><button className="btn-glow" onClick={()=>viewAssignmentSubmissions(a)}>View Details & Submitted Work</button></div>))}
+          {selectedAssignment && (<div style={{position:'fixed',top:'10%',left:'10%',width:'80%',background:'white',borderRadius:'28px',padding:'1.5rem',zIndex:2200,boxShadow:'0 20px 40px black'}}><h3>{selectedAssignment.title} - Submissions</h3>{selectedAssignment.submissions?.map((sub,idx)=>(<div key={idx}><p><strong>{sub.studentName}</strong> submitted {sub.fileUrl} at {sub.submittedAt}</p></div>))}<button onClick={()=>setSelectedAssignment(null)}>Close</button></div>)}</>)}
+        </div>
+      </div>
+    );
+  };
+
+  const App = () => { const [showPanel, setShowPanel] = React.useState(false); React.useEffect(() => { const btn = document.getElementById('adminOpenBtn'); if(btn) btn.onclick = () => setShowPanel(true); }, []); if(!showPanel) return null; return <AdminPanel onClose={() => setShowPanel(false)} />; };
+  ReactDOM.createRoot(document.getElementById('adminRoot')).render(<App />);
+</script>
+</body>
+</html>
